@@ -2,7 +2,7 @@
 """
 Simple pagination
 """
-from typing import Tuple
+from typing import Tuple, Dict
 import csv
 from typing import List
 import math
@@ -49,7 +49,7 @@ class Server:
             return []
         return self.dataset()[start:end]
 
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
         """
         returns a dictionary containing page and metadata
         """
