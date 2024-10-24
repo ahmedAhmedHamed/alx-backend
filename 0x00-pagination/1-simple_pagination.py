@@ -4,7 +4,6 @@ Simple pagination
 """
 from typing import Tuple
 import csv
-import math
 from typing import List
 
 
