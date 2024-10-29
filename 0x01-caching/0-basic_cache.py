@@ -10,12 +10,6 @@ class BasicCache(BaseCaching):
     Basic cache class
     """
 
-    def __init__(self):
-        """
-        just calls super init
-        """
-        super().__init__()
-
     def put(self, key, item):
         """
         default dict behaviour
