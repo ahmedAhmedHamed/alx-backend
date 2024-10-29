@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 """Basic Cache module
 """
 BaseCaching = __import__('caching').BaseCaching
