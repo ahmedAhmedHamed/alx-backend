@@ -4,12 +4,8 @@ BaseCaching = __import__('caching').BaseCaching
 
 
 class BasicCache(BaseCaching):
-    """Basic cache class
-    """
 
     def put(self, key, item):
-        """default dict behaviour
-        """
         if key is None or item is None:
             return
         self.cache_data[key] = item
