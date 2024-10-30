@@ -55,5 +55,7 @@ class LRUCache(BaseCaching):
         """
         if key is None:
             return
+        for i in range(len(self.lru)):
+            self.lru[i][1] += 1
         self.key_accessed_in_lru(key)
         return self.cache_data.get(key)
