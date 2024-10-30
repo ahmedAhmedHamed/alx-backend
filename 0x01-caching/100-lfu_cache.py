@@ -26,6 +26,9 @@ class LFUCache(BaseCaching):
                 break
 
     def discard_lfu(self):
+        """
+        discards following lfu
+        """
         max_frequency_instances = []
         min_frequency = 99999999999
         for _, _, frequency in self.mru:
