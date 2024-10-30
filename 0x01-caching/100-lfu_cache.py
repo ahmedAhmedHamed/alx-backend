@@ -43,7 +43,7 @@ class LFUCache(BaseCaching):
         smallest_timer = 9999999999
         removed_key = None
         removed_idx = None
-        
+
         for i in range(len(max_frequency_instances)):
             if max_frequency_instances[i][1] < smallest_timer:
                 smallest_timer = max_frequency_instances[i][1]
