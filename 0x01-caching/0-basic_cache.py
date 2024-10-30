@@ -1,4 +1,4 @@
-BaseCaching = __import__('caching').BaseCaching
+BaseCaching = __import__('base_caching').BaseCaching
 
 
 class BasicCache(BaseCaching):
