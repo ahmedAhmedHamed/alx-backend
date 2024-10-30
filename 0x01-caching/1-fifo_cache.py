@@ -20,12 +20,16 @@ class FIFOCache(BaseCaching):
         """
         if key is None or item is None:
             return
-        self.fifo.append(key)
+        flag = False
+        if self.cache_data.get(key) is None:
+            self.fifo.append(key)
+            flag = True
         self.cache_data[key] = item
-        if len(self.fifo) > self.MAX_ITEMS:
+        if flag and len(self.fifo) > self.MAX_ITEMS:
             removed_key = self.fifo[0]
             self.fifo = self.fifo[1:]
             del self.cache_data[removed_key]
+            print(f"DISCARD: {removed_key}")
 
     def get(self, key):
         """
