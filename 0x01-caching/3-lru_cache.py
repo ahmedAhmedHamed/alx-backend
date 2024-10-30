@@ -15,6 +15,9 @@ class LRUCache(BaseCaching):
         self.lru = []
 
     def key_accessed_in_lru(self, key):
+        """
+        makes time of key zero
+        """
         for i in range(len(self.lru)):
             if self.lru[i][0] == key:
                 self.lru[i][1] = 0
@@ -27,7 +30,7 @@ class LRUCache(BaseCaching):
         if key is None or item is None:
             return
         if self.cache_data.get(key) is None:
-            self.lru.append([key, 0])
+            self.lru.append([key, -1])
         else:
             self.key_accessed_in_lru(key)
         self.cache_data[key] = item
