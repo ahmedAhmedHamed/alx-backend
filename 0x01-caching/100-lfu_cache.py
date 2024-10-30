@@ -36,7 +36,8 @@ class LFUCache(BaseCaching):
         for i in range(len(self.mru)):  # build array containing all==max freq
             if min_frequency == self.mru[i][2]:
                 # 0: key, 1: timer, i: idx in mru
-                max_frequency_instances.append([self.mru[i][0], self.mru[i][1], i])
+                max_frequency_instances.append(
+                    [self.mru[i][0], self.mru[i][1], i])
         # get lru out of mru
         # least recently used = smallest timer
         smallest_timer = 9999999999
