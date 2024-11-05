@@ -4,10 +4,6 @@ from flask import Flask, render_template
 from flask_babel import Babel
 
 
-def get_locale():
-    return Config.LANGUAGES[0]
-
-
 app = Flask(__name__)
 
 
