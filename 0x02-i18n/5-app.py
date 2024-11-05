@@ -34,7 +34,6 @@ def get_user(login_as) -> Union[Dict[str, Union[str, None]], None]:
      if the ID cannot be found or if login_as was not passed. """
     if login_as is None:
         return None
-    global users
     return users.get(int(login_as))
 
 
