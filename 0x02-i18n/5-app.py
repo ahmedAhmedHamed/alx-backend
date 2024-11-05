@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """ initial app """
+from typing import Union, Dict
+
 import flask
 from flask import Flask, render_template, request
 from flask_babel import Babel
@@ -27,10 +29,9 @@ users = {
 }
 
 
-def get_user():
+def get_user(login_as) -> Union[Dict[str, Union[str, None]], None]:
     """ returns a user dictionary or None
      if the ID cannot be found or if login_as was not passed. """
-    login_as = request.args.get('login_as')
     if login_as is None:
         return None
     global users
@@ -40,7 +41,7 @@ def get_user():
 @app.before_request
 def before_request():
     """ happens before request """
-    flask.g.user = get_user()
+    flask.g.user = get_user(request.args.get('login_as'))
 
 
 @babel.localeselector
