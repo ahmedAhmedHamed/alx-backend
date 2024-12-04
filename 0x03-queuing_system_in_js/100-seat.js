@@ -9,7 +9,7 @@ const setAsync = util.promisify(client.set).bind(client);
 const app = express();
 const PORT = 1245;
 const queue = createQueue();
-const reservationEnabled = true;
+let reservationEnabled = true;
 setAsync('available_seats', 50);
 
 function reserveSeat(number) {
@@ -45,6 +45,22 @@ app.get('/reserve_seat', async (req, res)=>{
       if (err) return res.json({ status: 'Reservation failed' });
       return res.json({ status: 'Reservation in process' });
     });
-
   }
+});
+
+app.get('/process', async (req, res)=>{
+  queue.process('reserve_seat', async function(job, done){
+    let seatsAvailable = await getCurrentAvailableSeats();
+    if (seatsAvailable === 0) {
+      done(new Error('Not enough seats available'));
+    } else {
+      seatsAvailable = seatsAvailable - 1;
+      reserveSeat(seatsAvailable);
+      if (seatsAvailable <= 0) {
+        reservationEnabled = false;
+      }
+      done();
+    }
+  });
+  res.json({"status": "Queue processing"});
 });
