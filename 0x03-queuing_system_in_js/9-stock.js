@@ -1,5 +1,5 @@
 import express from 'express';
-import redis, { createClient } from 'redis';
+import { createClient } from 'redis';
 import util from "util";
 
 const client = createClient();
@@ -37,6 +37,9 @@ const listProducts = [
 
 function reformat(input) {
   const output = {}
+  if (input === null) {
+    return input;
+  }
   output['itemId'] = input['id'];
   output['itemName'] = input['name'];
   output['price'] = input['price'];
@@ -53,7 +56,7 @@ function reserveStockById(itemId, stock) {
 }
 
 async function getCurrentReservedStockById(itemId) {
-  return await getAsync(itemId) || 0;
+  return await getAsync(`item.${itemId}`) || 0;
 }
 
 app.listen(PORT);
@@ -71,9 +74,31 @@ app.get('/list_products/:itemId', async (req, res) => {
   const item = getItemById(itemId);
   const reserved = await getCurrentReservedStockById(itemId) || 0;
   let ret = {"status":"Product not found"};
-  if (item) {
+  if (item !== null) {
     ret = reformat(item);
     ret.currentQuantity = item.stock - reserved;
   }
   res.json(ret);
+});
+
+app.get('/reserve_product/:itemId', async (req, res) => {
+  const itemId = parseInt(req.params.itemId, 10);
+  const item = getItemById(itemId);
+  const reserved = await getCurrentReservedStockById(itemId) || 0;
+  let ret = {"status":"Product not found"};
+  if (item === null) {
+    res.json(ret);
+  } else {
+    ret = reformat(item);
+    ret.currentQuantity = item.stock - reserved;
+    if (ret.currentQuantity <= 0) {
+      res.json({'status': 'Not enough stock available',
+        'itemId': itemId});
+    }
+    else {
+      reserveStockById(itemId, reserved + 1);
+      res.json({'status': 'Reservation confirmed',
+        'itemId': itemId});
+    }
+  }
 });
