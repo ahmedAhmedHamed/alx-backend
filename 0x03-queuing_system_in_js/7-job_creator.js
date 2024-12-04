@@ -49,12 +49,14 @@ const jobs = [
 ];
 
 jobs.forEach((jobData) => {
-  const job = queue.create('push_notification_code', jobData).save();
+  const job = queue.create('push_notification_code_2', jobData).save();
   job.on('complete', function() {
     console.log('Notification job completed');
   }).on('failed', function(){
     console.log('Notification job failed');
   }).on('enqueue', function(){
     console.log(`Notification job created: ${job.id}`);
-  });
+  }).on('progress', (progress) => {
+      console.log(`Notification job ${job.id} ${progress}% complete`);
+    });
 });
